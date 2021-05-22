@@ -202,10 +202,13 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       console.log("User searched for:" + userInput);
       listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
         .then(results => {
+          if(results.length === 0){
+            res.sendFile(__dirname + '/not_found.html')
+          }else{
           res.render('index.ejs', { items: results })
+        }
         }).catch(error => console.error(error));
     })
-
 
     //Renders template in EJS file, order chronologically
     app.get('/main_page', (req, res) => {
@@ -316,26 +319,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
       let id = req.params.id;
 
-
       listCollection.find({ _id: new mongo.ObjectId(id) }).toArray()
         .then(results => {
           res.render('product_page.ejs', { items: results })
         }).catch(error => console.error(error))
-
-
-      /** 
-        const productCategory = await getCategoryById(id);
-
-        listCollection.find({ category: getRecommendationCategory(getCategoryById(id)) }).toArray()
-        .then(results => {
-          res.render('product_page.ejs', { items: results })
-         
-        }).catch(error => console.error(error))
-
-        console.log(getRecommendationCategory(getCategoryById(productCategory)))
-        */
-
-
     })
 
     //Renders template in EJS file
@@ -344,19 +331,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       try {
 
         let id = req.params.id;
-
         const productCategory = await getCategoryById(id);
-
         const recommendationCategory = getRecommendationCategory(productCategory);
-
         //const lowerPriceFilter = (getPriceCategory(id)*0.5);
 
         listCollection.find({ category: recommendationCategory }).toArray()
           .then(results => {
             shuffle(results);
             res.render('recommended.ejs', { items: results })
-            console.log(results.length)
-            console.log("DEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATH")
           }).catch(error => console.error(error))
       } catch (error) {
         console.log("Failed to get a recommendation");
