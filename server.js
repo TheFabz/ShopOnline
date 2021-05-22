@@ -64,7 +64,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //updates existing item
     app.post('/edit/:id', async (req, res, next) => {
       let id = req.params.id;
-      let updatedItem = { title: req.body.title, description: req.body.description, date: req.body.date, participants: req.body.participants };
+      let updatedItem = { product_name: req.body.product_name, price: req.body.price, description: req.body.description, image_url: req.body.image_url, category: req.body.category };
       listCollection.updateOne({ "_id": mongoObjId(id) }, { $set: updatedItem });
       res.redirect('/root_control')
     });
@@ -255,16 +255,16 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-     //Renders template in EJS file, ordere chronologically
-     app.get('/smartphone', (req, res) => {
+    //Renders template in EJS file, ordere chronologically
+    app.get('/smartphone', (req, res) => {
       listCollection.find({ category: "smartphone" }).toArray()
         .then(results => {
           res.render('index.ejs', { items: results })
         }).catch(error => console.error(error));
     })
 
-     //Renders template in EJS file, ordere chronologically
-     app.get('/audio', (req, res) => {
+    //Renders template in EJS file, ordere chronologically
+    app.get('/audio', (req, res) => {
       listCollection.find({ category: "audio" }).toArray()
         .then(results => {
           res.render('index.ejs', { items: results })
@@ -323,42 +323,28 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
       let recommendationCategory = getRecommendationCategory(productCategory);
 
-
-
-
       listCollection.find({ category: recommendationCategory }).toArray()
         .then(results => {
+          shuffle(results);
           res.render('recommended.ejs', { items: results })
         }).catch(error => console.error(error))
 
-
-      /** 
-        
-
-        listCollection.find({ category: getRecommendationCategory(getCategoryById(id)) }).toArray()
-        .then(results => {
-          res.render('product_page.ejs', { items: results })
-         
-        }).catch(error => console.error(error))
-
-        console.log(getRecommendationCategory(getCategoryById(productCategory)))
-        */
-
-
-    })
-
-
-
-    //Renders template in EJS file
-    app.get('/daniel', async (req, res) => {
-      const category = await getCategoryById("60a6ff07f1b4c72d54a7fbcd");
-      console.log(category)
     })
 
     // CUSTOMER SIDE PLATFORM END;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    /* Randomize array in-place using Durstenfeld shuffle algorithm */
+    function shuffle(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+    }
 
     async function getCategoryById(id) {
       const obj = await listCollection.findOne({ _id: new mongo.ObjectId(id) })
@@ -384,7 +370,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           relatedCategories = ['office', 'video_game', 'audio']
           break;
         case 'video_games':
-          relatedCategories = ['television','audio']
+          relatedCategories = ['television', 'audio']
           break;
         case 'office':
           relatedCategories = ['computer', 'television', 'mouse', 'keyboard']
@@ -399,20 +385,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           relatedCategories = ['television', 'office']
           break;
         case 'audio':
-          relatedCategories = ['computer', 'laptop','television']
+          relatedCategories = ['computer', 'laptop', 'television']
           break;
         case 'smartphone':
-          relatedCategories = ['audio', 'office']
+          relatedCategories = ['audio', 'office', 'laptop']
           break;
       }
-
       return relatedCategories[Math.floor(Math.random() * relatedCategories.length)];
     }
-
-
-
-
-
 
     //prints current items in db to terminal
     app.get('/test', (req, res) => {
@@ -448,8 +428,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch(error => console.error(error))
     })
-
-
   })
 
 
