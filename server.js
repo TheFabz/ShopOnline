@@ -354,6 +354,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         array[i] = array[j];
         array[j] = temp;
       }
+      return array;
     }
 
     async function getCategoryById(id) {
