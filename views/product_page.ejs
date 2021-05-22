@@ -31,12 +31,9 @@
         }
 
         .items {
-
-            margin: auto;
             justify-content: center;
             display: flex;
             flex-wrap: wrap;
-            flex-direction: row;
             height: 100%;
             width: 100%;
         }
@@ -60,6 +57,11 @@
             height: 10%;
             display: flex;
             align-items: center;
+        }
+
+        img {
+            width: 70%;
+            height: 70%;
         }
     </style>
     <title>Product Page</title>
@@ -119,22 +121,21 @@
             <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-              </form>
-        
+            </form>
+
         </div>
     </nav>
     <!--NAV-->
-
     <br>
-
     <div class="items">
         <div class="jumbotron">
             <% for(var i=0; i < items.length; i++) {%>
-                <h1 class="display-4">
+                <h3 class="display-4">
                     <%= items[i].product_name %>
-                </h1>
+                </h3>
                 <p class="lead">
-                    <a href="/product/<%=items[i]._id%>" ><img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>"></a>
+                    <a href="/product/<%=items[i]._id%>"><img src="<%= items[i].image_url %>"
+                            alt="<%= items[i].product_name %>"></a>
                 </p>
                 <hr class="my-4">
                 <p>
@@ -144,7 +145,8 @@
                     <%= items[i].price %> €
                 </h1>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See Recommended Bundles</a>
+                    <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
+                        Recommended Bundles</a>
                 </p>
                 <% } %>
         </div>

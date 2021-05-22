@@ -31,12 +31,9 @@
         }
 
         .items {
-
-            margin: auto;
             justify-content: center;
             display: flex;
             flex-wrap: wrap;
-            flex-direction: row;
             height: 100%;
             width: 100%;
         }
@@ -60,6 +57,11 @@
             height: 10%;
             display: flex;
             align-items: center;
+        }
+
+        img {
+            width: 70%;
+            height: 70%;
         }
     </style>
     <title>Product Page</title>
@@ -131,9 +133,9 @@
         <div class="jumbotron">
             <% for(var i= 0 ; i < 2 ; i++) {%>
 
-                <h1 class="display-4">
+                <h3 class="display-4">
                     <%= items[i].product_name %>
-                </h1>
+                </h3>
                 <p class="lead">
                     <a href="/product/<%=items[i]._id%>" ><img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>"></a>
                 </p>
