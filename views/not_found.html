@@ -125,23 +125,22 @@
 
     <div class="items">
         <div class="jumbotron">
-            <% for(var i= 0 ; i < items.length ; i++) {%>
-
+            
                 <h1 class="display-4">
-                    <%= items[i].product_name %>
+                    <%= test %>
                 </h1>
                 <p class="lead">
-                    <img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>">
+                    <img src="" alt="">
                 </p>
                 <hr class="my-4">
                 <p>
-                    <%= items[i].description %>
+                    <%= other test %>
                 </p>
                 <h1>
-                    <%= items[i].price %> €
+                    <%= third test %> €
                 </h1>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See Recommended Bundles</a>
+                    <a class="btn btn-primary btn-lg" href="/" role="button">See Recommended Bundles</a>
                 </p>
                 <% } %>
         </div>

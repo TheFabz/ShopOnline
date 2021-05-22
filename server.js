@@ -317,6 +317,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //Renders template in EJS file
     app.get('/recommended/:id', async (req, res) => {
 
+      try {
+        
+      
+
       let id = req.params.id;
 
       const productCategory = await getCategoryById(id);
@@ -327,8 +331,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .then(results => {
           shuffle(results);
           res.render('recommended.ejs', { items: results })
+          console.log(results.length)
+          console.log("DEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATH")
         }).catch(error => console.error(error))
+      } catch (error) {
+        console.log("Failed to get a recommendation");
+        res.sendFile(__dirname + '/not_found.html')
 
+      }
     })
 
     // CUSTOMER SIDE PLATFORM END;
