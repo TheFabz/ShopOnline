@@ -116,6 +116,10 @@
                     <a class="nav-link" href="/home_decoration">Decoration & Home</a>
                 </li>
             </ul>
+            <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
         
         </div>
     </nav>
@@ -127,22 +131,12 @@
         <div class="jumbotron">
             
                 <h1 class="display-4">
-                    <%= test %>
+                    sorry, not found.
                 </h1>
-                <p class="lead">
-                    <img src="" alt="">
+                
+                    <a class="btn btn-primary btn-lg" href="/main_page" role="button">Back to start</a>
                 </p>
-                <hr class="my-4">
-                <p>
-                    <%= other test %>
-                </p>
-                <h1>
-                    <%= third test %> €
-                </h1>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="/" role="button">See Recommended Bundles</a>
-                </p>
-                <% } %>
+               
         </div>
     </div>
 

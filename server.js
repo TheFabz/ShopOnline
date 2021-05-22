@@ -28,7 +28,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     const listCollection = db.collection('products')
 
     //Authenticates user / staff - Website main
-    app.post('/login', async (req, res, next) => {
+    app.post('/login', (req, res, next) => {
       if (req.body.username == "admin" && req.body.password == "admin") {
         console.log("consumer has logged in")
         res.redirect('/main_page')
@@ -45,6 +45,19 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //ROOTUSER SIDE PLATFORM
 
+    //Renders template in EJS file, ordere chronologically
+    app.post('/root_search', (req, res) => {
+
+      const userInput = req.body.input;
+
+      console.log("Root searched for:" + userInput);
+
+      listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
+        .then(results => {
+          res.render('root_index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
     //Renders template in EJS file
     app.get('/root_control', (req, res) => {
       listCollection.find().toArray()
@@ -57,8 +70,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/delete/:id', function (req, res) {
       let id = req.params.id;
       listCollection.deleteOne({ _id: new mongo.ObjectId(id) }, function (err, results) { });
-      res.redirect('/show-ordered')
-      res.json({ success: id })
+
+      res.redirect('/root_control')
     });
 
     //updates existing item
@@ -184,6 +197,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //CUSTOMER SIDE PLATFORM
 
     //Renders template in EJS file, ordere chronologically
+    app.post('/search', (req, res) => {
+      const userInput = req.body.input;
+      console.log("User searched for:" + userInput);
+      listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
+        .then(results => {
+          res.render('index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+
+    //Renders template in EJS file, order chronologically
     app.get('/main_page', (req, res) => {
       listCollection.find({}).toArray()
         .then(results => {
@@ -318,26 +342,25 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/recommended/:id', async (req, res) => {
 
       try {
-        
-      
 
-      let id = req.params.id;
+        let id = req.params.id;
 
-      const productCategory = await getCategoryById(id);
+        const productCategory = await getCategoryById(id);
 
-      let recommendationCategory = getRecommendationCategory(productCategory);
+        const recommendationCategory = getRecommendationCategory(productCategory);
 
-      listCollection.find({ category: recommendationCategory }).toArray()
-        .then(results => {
-          shuffle(results);
-          res.render('recommended.ejs', { items: results })
-          console.log(results.length)
-          console.log("DEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATH")
-        }).catch(error => console.error(error))
+        //const lowerPriceFilter = (getPriceCategory(id)*0.5);
+
+        listCollection.find({ category: recommendationCategory }).toArray()
+          .then(results => {
+            shuffle(results);
+            res.render('recommended.ejs', { items: results })
+            console.log(results.length)
+            console.log("DEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATH")
+          }).catch(error => console.error(error))
       } catch (error) {
         console.log("Failed to get a recommendation");
         res.sendFile(__dirname + '/not_found.html')
-
       }
     })
 
@@ -360,6 +383,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     async function getCategoryById(id) {
       const obj = await listCollection.findOne({ _id: new mongo.ObjectId(id) })
       return obj.category;
+    }
+
+    async function getPriceById(id) {
+      const obj = await listCollection.findOne({ _id: new mongo.ObjectId(id) })
+      return parse.int(obj.price);
     }
 
     function getRecommendationCategory(currentProductCategory) {
@@ -418,7 +446,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/delete/:id', function (req, res) {
       let id = req.params.id;
       listCollection.deleteOne({ _id: new mongo.ObjectId(id) }, function (err, results) { });
-      res.redirect('/show-ordered')
+      res.redirect('/root_control')
       res.json({ success: id })
     });
 

@@ -116,6 +116,10 @@
                     <a class="nav-link" href="/home_decoration">Decoration & Home</a>
                 </li>
             </ul>
+            <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
         
         </div>
     </nav>
@@ -131,7 +135,7 @@
                     <%= items[i].product_name %>
                 </h1>
                 <p class="lead">
-                    <img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>">
+                    <a href="/product/<%=items[i]._id%>" ><img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>"></a>
                 </p>
                 <hr class="my-4">
                 <p>
