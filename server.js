@@ -9,6 +9,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }))
 var nodemailer = require('nodemailer');
 app.use(bodyParser.json())
+var shoppingCartArr = [];
 
 
 
@@ -196,13 +197,28 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //CUSTOMER SIDE PLATFORM
 
-        //Renders template in EJS file, order chronologically
-        app.get('/shopping_cart', (req, res) => {
-          listCollection.find({}).toArray()
-            .then(results => {
-              res.render('shopping_cart.ejs', { shoppingCartArr: results })
-            }).catch(error => console.error(error));
-        })
+    //Renders template in EJS file, order chronologically
+    app.post('/add_to_cart', (req, res) => {
+      shoppingCartArr.push(req.body);
+      res.redirect('/shopping_cart')
+    })
+
+    //Renders template in EJS file, order chronologically
+    app.get('/remove_from_cart/:id', (req, res) => {
+      for (let i = 0; i < shoppingCartArr.length; i++) {
+
+        if(shoppingCartArr[i]._id === req.params.id){
+          shoppingCartArr.pop(shoppingCartArr[i])
+        }
+      }
+      res.redirect('/shopping_cart')
+    })
+
+    //Renders template in EJS file, order chronologically
+    app.get('/shopping_cart', (req, res) => {
+      console.log(shoppingCartArr);
+      res.render('shopping_cart.ejs', {shoppingCartArr: shoppingCartArr})
+    })
 
     //Renders template in EJS file, ordere chronologically
     app.post('/search', (req, res) => {
@@ -210,11 +226,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       console.log("User searched for:" + userInput);
       listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
         .then(results => {
-          if(results.length === 0){
+          if (results.length === 0) {
             res.sendFile(__dirname + '/not_found.html')
-          }else{
-          res.render('index.ejs', { items: results })
-        }
+          } else {
+            res.render('index.ejs', { items: results })
+          }
         }).catch(error => console.error(error));
     })
 

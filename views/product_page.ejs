@@ -50,15 +50,6 @@
             height: 40%;
         }
 
-        .plus_sign {
-            position: relative;
-            max-width: fit-content;
-            width: 10%;
-            height: 10%;
-            display: flex;
-            align-items: center;
-        }
-
         img {
             width: 70%;
             height: 70%;
@@ -117,6 +108,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/home_decoration">Decoration & Home</a>
                 </li>
+                <li class="nav-item" id="my_shopping">
+                    <a class="nav-link" href="/shopping_cart">
+                        <h5>*MyShopping!*</h5>
+                    </a>
+                </li>
             </ul>
             <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
@@ -127,13 +123,12 @@
     </nav>
     <!--NAV-->
     <br>
-
     <div class="items">
         <div class="jumbotron">
             <% for(var i=0; i < items.length; i++) {%>
-                <h3 class="display-4">
+                <h1 class="display-4">
                     <%= items[i].product_name %>
-                </h3>
+                </h1>
                 <p class="lead">
                     <a href="/product/<%=items[i]._id%>"><img src="<%= items[i].image_url %>"
                             alt="<%= items[i].product_name %>"></a>
@@ -146,8 +141,17 @@
                     <%= items[i].price %> €
                 </h1>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">See
-                        Buy now!</a>
+                    <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
+                        Recommended Bundles</a>
+                </p>
+                <p class="lead">
+                <form action="/add_to_cart" method="POST">
+                    <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
+                    <input type="hidden" name="price" value="1<%= items[i].price %>" />
+                    <input type="hidden" name="_id" value="<%= items[i]._id %>" />
+
+                    <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
+                </form>
                 </p>
                 <% } %>
         </div>

@@ -45,18 +45,15 @@
             width: 100%;
         }
 
-        img {
+        .thumbnail {
+            max-width: fit-content;
             width: 100%;
-            height: 55%;
+            height: 40%;
         }
 
-        .shopping_cart {
-            height: 50px;
-            width: 50px;
-        }
-
-        #my_shopping {
-            color: firebrick;
+        img {
+            width: 70%;
+            height: 70%;
         }
     </style>
     <title>ShopOnline</title>
@@ -130,64 +127,56 @@
     <!--NAV-->
 
     <br><br>
-    
-        <div class="items_container">
 
-            <br>
-            <br>
-
-            <div class="jumbotron">
-                <% var total=0 %>
-
-                    <% for(var i=0; i < 5; i++) {%>
-                        <% total=total + parseInt(shoppingCartArr[i].price) %>
-                            <% } %>
-
-                                <h3 class="display-4">
-                                    Your order:
-                                </h3>
-                                
-                                <table class="table table-hover">
-                                    <thead>
+    <div class="items">
+        <div class="jumbotron">
+            <% var total=0 %>
+                <% for(var i=0; i < shoppingCartArr.length; i++) {%>
+                    <% total=total + parseInt(shoppingCartArr[i].price) %>
+                        <% } %>
+                            <h3 class="display-4">
+                                Your order:
+                            </h3>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col"><b>Product name:</b></th>
+                                        <th scope="col"><b>Price:</b></th>
+                                        <th scope="col"><b>Product page:</b></th>
+                                        <th scope="col"><b>Remove:</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(var i=0; i < shoppingCartArr.length; i++) {%>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col"><b>Product name:</b></th>
-                                            <th scope="col"><b>Price:</b></th>
-                                            <th scope="col"><b>Product page:</b></th>
+                                            <th scope="row">
+                                                <%= i + 1 %>
+                                            </th>
+                                            <td>
+                                                <%= shoppingCartArr[i].product_name %>
+                                            </td>
+                                            <td>
+                                                <%= parseInt(shoppingCartArr[i].price) %>€
+                                            </td>
+                                            <td><a href="/product/<%=shoppingCartArr[i]._id%>"><i
+                                                        class="material-icons">description</i></a></td>
+                                            <td><a href="/remove_from_cart/<%=shoppingCartArr[i]._id%>" class="card-link"><i
+                                                        class="material-icons">clear</i></a></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% for(var i=0; i < 5; i++) {%>
-                                            <tr>
-                                                <th scope="row">
-                                                    <%= i + 1 %>
-                                                </th>
-                                                <td>
-                                                    <%= shoppingCartArr[i].product_name %>
-                                                </td>
-                                                <td>
-                                                    <%= parseInt(shoppingCartArr[i].price) %>€
-                                                </td>
-                                                <td><a href="/product/<%=shoppingCartArr[i]._id%>"><i
-                                                            class="material-icons">description</i></a></td>
-                                            </tr>
-                                            <% } %>
-                                    </tbody>
-                                </table>
-                                <p>
-                                    Total is:
-                                </p>
-
-                                <h1>
-                                    <%= total %> €
-                                </h1>
-                                <p class="lead">
-                                    <a class="btn btn-primary btn-lg" href="#" role="button">
-                                        Buy now!</a>
-                                </p>
-            </div>
+                                        <% } %>
+                                </tbody>
+                            </table>
+                            <p>Total is:</p>
+                            <h1>
+                                <%= total %> €
+                            </h1>
+                            <p class="lead">
+                                <a class="btn btn-primary btn-lg" href="#" role="button">Buy now!</a>
+                            </p>
         </div>
-    
+    </div>
+
 
     <!-- Footer -->
     <footer class="page-footer font-small blue">
