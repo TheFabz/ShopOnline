@@ -32,10 +32,9 @@
         }
 
         .items {
-            margin: 2px;
+            justify-content: center;
             display: flex;
             flex-wrap: wrap;
-            flex-direction: row;
             height: 100%;
             width: 100%;
         }
@@ -55,8 +54,9 @@
             height: 50px;
             width: 50px;
         }
-        #my_shopping{
-            color:firebrick;
+
+        #my_shopping {
+            color: firebrick;
         }
     </style>
     <title>ShopOnline</title>
@@ -113,9 +113,11 @@
                     <a class="nav-link" href="/home_decoration">Decoration & Home</a>
                 </li>
                 <li class="nav-item" id="my_shopping">
-                    <a class="nav-link" href="shopping_cart"><h5>*MyShopping!*</h5></a>
+                    <a class="nav-link" href="shopping_cart">
+                        <h5>*MyShopping!*</h5>
+                    </a>
                 </li>
-               
+
             </ul>
 
             <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
@@ -128,33 +130,64 @@
     <!--NAV-->
 
     <br><br>
+    
+        <div class="items_container">
 
-    <!--cards with events-->
-    <div class="items_container">
-        <ul class="items">
-            <!-- Loop through items -->
-            <% for(var i=0; i < items.length; i++) {%>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <%= items[i].product_name %>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <%= items[i].price %> €
-                        </h6>
-                        <a href="/product/<%=items[i]._id%>"><img src="<%= items[i].image_url %>"
-                                alt="<%= items[i].product_name %>"></a>
-                        <div class="card-body text-success">
-                        </div>
-                    </div>
-                </div>
-                <% } %>
-        </ul>
-    </div>
-    <!--cards with events-->
+            <br>
+            <br>
 
-    <br>
-    <br>
+            <div class="jumbotron">
+                <% var total=0 %>
+
+                    <% for(var i=0; i < 5; i++) {%>
+                        <% total=total + parseInt(shoppingCartArr[i].price) %>
+                            <% } %>
+
+                                <h3 class="display-4">
+                                    Your order:
+                                </h3>
+                                
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col"><b>Product name:</b></th>
+                                            <th scope="col"><b>Price:</b></th>
+                                            <th scope="col"><b>Product page:</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(var i=0; i < 5; i++) {%>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%= i + 1 %>
+                                                </th>
+                                                <td>
+                                                    <%= shoppingCartArr[i].product_name %>
+                                                </td>
+                                                <td>
+                                                    <%= parseInt(shoppingCartArr[i].price) %>€
+                                                </td>
+                                                <td><a href="/product/<%=shoppingCartArr[i]._id%>"><i
+                                                            class="material-icons">description</i></a></td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                                <p>
+                                    Total is:
+                                </p>
+
+                                <h1>
+                                    <%= total %> €
+                                </h1>
+                                <p class="lead">
+                                    <a class="btn btn-primary btn-lg" href="#" role="button">
+                                        Buy now!</a>
+                                </p>
+            </div>
+        </div>
+    
 
     <!-- Footer -->
     <footer class="page-footer font-small blue">

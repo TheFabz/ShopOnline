@@ -196,6 +196,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //CUSTOMER SIDE PLATFORM
 
+        //Renders template in EJS file, order chronologically
+        app.get('/shopping_cart', (req, res) => {
+          listCollection.find({}).toArray()
+            .then(results => {
+              res.render('shopping_cart.ejs', { shoppingCartArr: results })
+            }).catch(error => console.error(error));
+        })
+
     //Renders template in EJS file, ordere chronologically
     app.post('/search', (req, res) => {
       const userInput = req.body.input;
