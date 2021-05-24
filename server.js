@@ -90,12 +90,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .then(result => {
           console.log(result)
           res.redirect('/root_control')
-
         })
         .catch(error => console.error(error))
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/computers', (req, res) => {
       listCollection.find({ category: "computer" }).toArray()
         .then(results => {
@@ -103,7 +102,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/audio', (req, res) => {
       listCollection.find({ category: "audio" }).toArray()
         .then(results => {
@@ -111,7 +110,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/keyboards', (req, res) => {
       listCollection.find({ category: "keyboard" }).toArray()
         .then(results => {
@@ -119,7 +118,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/laptops', (req, res) => {
       listCollection.find({ category: "laptop" }).toArray()
         .then(results => {
@@ -127,7 +126,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/smartphone', (req, res) => {
       listCollection.find({ category: "smartphone" }).toArray()
         .then(results => {
@@ -135,7 +134,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/health', (req, res) => {
       listCollection.find({ category: "health" }).toArray()
         .then(results => {
@@ -143,7 +142,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/home_decoration', (req, res) => {
       listCollection.find({ category: "decoration" }).toArray()
         .then(results => {
@@ -151,7 +150,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/office', (req, res) => {
       listCollection.find({ category: "office" }).toArray()
         .then(results => {
@@ -159,7 +158,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/video_games', (req, res) => {
       listCollection.find({ category: "video_games" }).toArray()
         .then(results => {
@@ -167,7 +166,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/tv_image', (req, res) => {
       listCollection.find({ category: "television" }).toArray()
         .then(results => {
@@ -175,7 +174,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/computer_mouse', (req, res) => {
       listCollection.find({ category: "mouse" }).toArray()
         .then(results => {
@@ -183,7 +182,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/root/beauty', (req, res) => {
       listCollection.find({ category: "beauty" }).toArray()
         .then(results => {
@@ -197,30 +196,30 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //CUSTOMER SIDE PLATFORM
 
-    //Renders template in EJS file, order chronologically
+    //Adds selected item from shopping cart array
     app.post('/add_to_cart', (req, res) => {
       shoppingCartArr.push(req.body);
       res.redirect('/shopping_cart')
     })
 
-    //Renders template in EJS file, order chronologically
+    //Removes selected item from shopping cart array
     app.get('/remove_from_cart/:id', (req, res) => {
-      for (let i = 0; i < shoppingCartArr.length; i++) {
 
-        if(shoppingCartArr[i]._id === req.params.id){
+      for (let i = 0; i < shoppingCartArr.length; i++) {
+        if (shoppingCartArr[i]._id === req.params.id) {
           shoppingCartArr.pop(shoppingCartArr[i])
         }
       }
       res.redirect('/shopping_cart')
     })
 
-    //Renders template in EJS file, order chronologically
+    //Renders template in EJS file
     app.get('/shopping_cart', (req, res) => {
       console.log(shoppingCartArr);
-      res.render('shopping_cart.ejs', {shoppingCartArr: shoppingCartArr})
+      res.render('shopping_cart.ejs', { shoppingCartArr: shoppingCartArr })
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.post('/search', (req, res) => {
       const userInput = req.body.input;
       console.log("User searched for:" + userInput);
@@ -234,15 +233,16 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, order chronologically
+    //Renders template in EJS file
     app.get('/main_page', (req, res) => {
       listCollection.find({}).toArray()
         .then(results => {
+          shuffle(results);
           res.render('index.ejs', { items: results })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/computers', (req, res) => {
       listCollection.find({ category: "computer" }).toArray()
         .then(results => {
@@ -250,7 +250,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/keyboards', (req, res) => {
       listCollection.find({ category: "keyboard" }).toArray()
         .then(results => {
@@ -258,7 +258,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/laptops', (req, res) => {
       listCollection.find({ category: "laptop" }).toArray()
         .then(results => {
@@ -266,7 +266,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/health', (req, res) => {
       listCollection.find({ category: "health" }).toArray()
         .then(results => {
@@ -274,7 +274,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/home_decoration', (req, res) => {
       listCollection.find({ category: "decoration" }).toArray()
         .then(results => {
@@ -282,7 +282,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/office', (req, res) => {
       listCollection.find({ category: "office" }).toArray()
         .then(results => {
@@ -290,7 +290,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/video_games', (req, res) => {
       listCollection.find({ category: "video_games" }).toArray()
         .then(results => {
@@ -298,7 +298,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/tv_image', (req, res) => {
       listCollection.find({ category: "television" }).toArray()
         .then(results => {
@@ -306,7 +306,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/smartphone', (req, res) => {
       listCollection.find({ category: "smartphone" }).toArray()
         .then(results => {
@@ -314,7 +314,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/audio', (req, res) => {
       listCollection.find({ category: "audio" }).toArray()
         .then(results => {
@@ -322,7 +322,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/computer_mouse', (req, res) => {
       listCollection.find({ category: "mouse" }).toArray()
         .then(results => {
@@ -330,7 +330,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.get('/beauty', (req, res) => {
       listCollection.find({ category: "beauty" }).toArray()
         .then(results => {
@@ -338,7 +338,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error));
     })
 
-    //Renders template in EJS file
+    //Renders product page in EJS file
     app.get('/product/:id', (req, res) => {
 
       let id = req.params.id;
@@ -349,7 +349,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }).catch(error => console.error(error))
     })
 
-    //Renders template in EJS file
+    //Renders recommended page in EJS file
     app.get('/recommended/:id', async (req, res) => {
 
       try {
@@ -374,6 +374,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // GENERAL FUNCTIONALITY;
 
     /* Randomize array in-place using Durstenfeld shuffle algorithm */
     function shuffle(array) {
@@ -386,16 +387,19 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       return array;
     }
 
+    //returns obj category;
     async function getCategoryById(id) {
       const obj = await listCollection.findOne({ _id: new mongo.ObjectId(id) })
       return obj.category;
     }
 
+    //returns obj price;
     async function getPriceById(id) {
       const obj = await listCollection.findOne({ _id: new mongo.ObjectId(id) })
       return parse.int(obj.price);
     }
 
+    //basis for recommendation algorithm;
     function getRecommendationCategory(currentProductCategory) {
 
       switch (currentProductCategory) {
@@ -456,8 +460,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       res.json({ success: id })
     });
 
-
-
     //delete item API;
     app.delete('/api/delete/:id', function (req, res) {
       let id = req.params.id;
@@ -473,6 +475,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch(error => console.error(error))
     })
+
+    // GENERAL FUNCTIONALITY;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   })
 
 
@@ -481,7 +488,6 @@ app.listen(process.env.PORT, function () {
   console.log('listening on 3000')
 })
 */
-
 
 //local use
 app.listen(3001, function () {

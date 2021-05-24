@@ -54,6 +54,11 @@
             width: 70%;
             height: 70%;
         }
+        .page_buttons{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
     </style>
     <title>Product Page</title>
 </head>
@@ -140,83 +145,24 @@
                 <h1>
                     <%= items[i].price %> €
                 </h1>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
-                        Recommended Bundles</a>
-                </p>
-                <p class="lead">
-                <form action="/add_to_cart" method="POST">
-                    <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
-                    <input type="hidden" name="price" value="1<%= items[i].price %>" />
-                    <input type="hidden" name="_id" value="<%= items[i]._id %>" />
-
-                    <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
-                </form>
-                </p>
+                <div class="page_buttons">
+                    <p class="lead">
+                        <form action="/add_to_cart" method="POST">
+                            <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
+                            <input type="hidden" name="price" value="<%= items[i].price %>" />
+                            <input type="hidden" name="_id" value="<%= items[i]._id %>" />
+    
+                            <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
+                        </form>
+                        </p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
+                            Recommended Bundles</a>
+                    </p>
+                </div>
                 <% } %>
         </div>
     </div>
-
-    <!--cards with events
-    <div class="items_container">
-        <ul class="items">
-            <!-- Loop through items 
-            <% for(var i=0; i < items.length; i++) {%>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <%= items[i].product_name %>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <%= items[i].price %> €
-                        </h6>
-                        <img class="thumbnail" src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>">
-                        <div class="card-body text-success">
-
-                        </div>
-                        <a href="/product/<%=items[i]._id%>" class="card-link">View product page</a>
-                    </div>
-                </div>
-                <% } %>
-
-
-
-                    <img class="plus_sign"
-                        src="https://lh3.googleusercontent.com/proxy/pHxyavs_wX4zu4RzT3Ep2GsMPbXd69IuUv_i_nHZhYiCMzirA6bHFKZSORBcpTYdIV5IKId-vvGKrYPgo8sDZ1cRE01tvWw">
-
-
-
-                    <!-- Loop through items 
-                    <% for(var i=0; i < items.length; i++) {%>
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <%= items[i].product_name %>
-                                </h5>
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    <%= items[i].price %> €
-                                </h6>
-                                <img class="thumbnail" src="<%= items[i].image_url %>"
-                                    alt="<%= items[i].product_name %>">
-                                <div class="card-body text-success">
-
-                                </div>
-                                <a href="/product/<%=items[i]._id%>" class="card-link">View product page</a>
-                            </div>
-                        </div>
-                        <% } %>
-
-                    -->
-
-
-
-
-
-    </div>
-    </ul>
-    </div>
-    <!--cards with events-->
-
 
     <br>
     <br>

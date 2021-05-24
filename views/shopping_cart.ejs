@@ -55,6 +55,14 @@
             width: 70%;
             height: 70%;
         }
+
+        .page_buttons{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+        
     </style>
     <title>ShopOnline</title>
 </head>
@@ -161,8 +169,8 @@
                                             </td>
                                             <td><a href="/product/<%=shoppingCartArr[i]._id%>"><i
                                                         class="material-icons">description</i></a></td>
-                                            <td><a href="/remove_from_cart/<%=shoppingCartArr[i]._id%>" class="card-link"><i
-                                                        class="material-icons">clear</i></a></td>
+                                            <td><a href="/remove_from_cart/<%=shoppingCartArr[i]._id%>"
+                                                    class="card-link"><i class="material-icons">clear</i></a></td>
                                         </tr>
                                         <% } %>
                                 </tbody>
@@ -171,9 +179,15 @@
                             <h1>
                                 <%= total %> €
                             </h1>
-                            <p class="lead">
-                                <a class="btn btn-primary btn-lg" href="#" role="button">Buy now!</a>
-                            </p>
+                            <div class="page_buttons">
+                                <p class="lead">
+                                    <a class="btn btn-secondary btn-lg" href="/main_page" role="button">Keep
+                                        Shopping</a>
+                                </p>
+                                <p class="lead">
+                                    <a class="btn btn-primary btn-lg" href="#" role="button">Buy now!</a>
+                                </p>
+                            </div>
         </div>
     </div>
 
