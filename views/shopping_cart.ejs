@@ -66,7 +66,6 @@
 </head>
 
 <body>
-
     <!--NAV-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="/">ShopOnline</a>
@@ -128,9 +127,7 @@
         </div>
     </nav>
     <!--NAV-->
-
     <br><br>
-
     <!--Displays your order-->
     <div class="items">
         <div class="jumbotron">
@@ -140,7 +137,6 @@
                         <% } %>
 
                             <h3 class="display-4">Your order:</h3>
-
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -164,7 +160,7 @@
                                                 <%= parseInt(shoppingCartArr[i].price) %>€
                                             </td>
                                             <td><a href="/product/<%=shoppingCartArr[i]._id%>">
-                                                    <iclass="material-icons">description</i>
+                                                    <i class="material-icons">description</i>
                                                 </a></td>
                                             <td><a href="/remove_from_cart/<%=shoppingCartArr[i]._id%>"
                                                     class="card-link"><i class="material-icons">clear</i></a></td>
@@ -182,18 +178,69 @@
                                         Shopping</a>
                                 </p>
                                 <p class="lead">
-                                    <a class="btn btn-primary btn-lg" href="#" role="button">Buy now!</a>
+                                    <a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal"
+                                        data-target="#exampleModal-add" data-whatever="@mdo">Buy now!</a>
                                 </p>
                             </div>
         </div>
     </div>
     <!--Displays your order-->
 
+    <!--customer details form-->
+    <div class="modal fade" id="exampleModal-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Complete your order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/make_order" method="POST">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Name:</label>
+                            <input type="text" required class="form-control" name="customer_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="email" required class="form-control" name="customer_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Address:</label>
+                            <input type="text" required class="form-control" name="customer_address">
+                        </div>
+
+                        <% for(var i=0; i < shoppingCartArr.length; i++) {%>
+                            <input type="hidden" name="order_item_ <%= + (i + 1)  %>"
+                                value="<%= shoppingCartArr[i].product_name %>" />
+                            <% } %>
+                                <input type="hidden" id="date" name="date" />
+                                <input type="hidden" name="total" value="<%= total %>" />
+
+                                <script type="text/javascript">
+                                    var d = new Date().toISOString().slice(0, 10)
+                                    // Set the value of the "date" field
+                                    document.getElementById("date").value = d;
+                                </script>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Order Now!</button>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--customer details form-->
+
     <!-- Footer -->
     <footer class="page-footer font-small blue">
         <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2021 Copyright Fábio Rodrigues
-        </div>
+        <div class="footer-copyright text-center py-3">© 2021 Copyright Fábio Rodrigues</div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->

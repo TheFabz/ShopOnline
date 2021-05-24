@@ -19,8 +19,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     console.log('Connected to Database')
     //Connects to DB
     const db = client.db('online_store')
-    //Connects to collection list-items
-    const listCollection = db.collection('products')
+    //Connects to products collection;
+    const listCollection = db.collection('products');
+    //Connects to orders collection;
+    const orderCollection = db.collection('orders')
 
     //Authenticates user / staff - Website main
     app.post('/login', (req, res, next) => {
@@ -39,7 +41,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //ROOTUSER SIDE PLATFORM
 
-    //Renders template in EJS file, ordere chronologically
+    //Renders template in EJS file
     app.post('/root_search', (req, res) => {
 
       const userInput = req.body.input;
@@ -184,6 +186,22 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //CUSTOMER SIDE PLATFORM
+
+
+    //Adds selected item from shopping cart array
+    app.post('/make_order', (req, res) => {
+      orderCollection.insertOne(req.body)
+        .then(result => {
+          console.log(result)
+          res.sendFile(__dirname + '/thank_you.html')
+        })
+        .catch(error => console.error(error))
+
+      for (var i = 0; i < shoppingCartArr.length + 1; i++) {
+        shoppingCartArr.pop(shoppingCartArr[i]);
+      }
+
+    })
 
     //Adds selected item from shopping cart array
     app.post('/add_to_cart', (req, res) => {
