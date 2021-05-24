@@ -86,12 +86,16 @@
                         </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/root_control">All</a>
-                        <a class="dropdown-item" href="/root/computers">Computers</a>
+                        <a class="dropdown-item" href="/root/computers">Desktops</a>
                         <a class="dropdown-item" href="/root/laptops">Laptops</a>
-                        <a class="dropdown-item" href="/root/keyboards">Keyboard</a>
-                        <a class="dropdown-item" href="/root/computer_mouse">Mouse</a>
+                        <a class="dropdown-item" href="/root/computer_accessories">Computer Acessories</a>
+                        <a class="dropdown-item" href="/root/keyboards">Keyboards</a>
+                        <a class="dropdown-item" href="/root/computer_mouse">Computer Mouse</a>
                         <a class="dropdown-item" href="/root/smartphone">SmartPhone</a>
-                        <a class="dropdown-item" href="/root/audio">Audio</a>
+                        <a class="dropdown-item" href="/root/smartphone_accessories">SmartPhone Acessories</a>
+                        <a class="dropdown-item" href="/root/audio">Sound System / Home</a>
+                        <a class="dropdown-item" href="/root/bluetooth_speaker">Bluetooth Speakers</a>
+                        <a class="dropdown-item" href="/root/headphones">Headphones</a>
                         <a class="dropdown-item" href="/root/tv_image">TV & Image</a>
                         <a class="dropdown-item" href="/root/video_games">Console & Video Games</a>
                         <a class="dropdown-item" href="/root/office">Office</a>
@@ -182,45 +186,56 @@
 
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Today
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Today
         </label>
         <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option2" autocomplete="off"> This Week
+            <input type="radio" name="options" id="option2" autocomplete="off"> This Week
         </label>
         <label class="btn btn-secondary">
             <input type="radio" name="options" id="option2" autocomplete="off"> This Month
-          </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option3" autocomplete="off"> All
         </label>
-      </div>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> All
+        </label>
+    </div>
 
-      <br>
+    <br>
 
     <table class="table table-hover">
         <thead>
-          <tr>
-            <th scope="col"><b>Order #</b></th>
-            <th scope="col"><b>Customer Name:</b></th>
-            <th scope="col"><b>Email:</b></th>
-            <th scope="col"><b>Purchase Total:</b></th>
-            <th scope="col"><b>Purchase Page:</b></th>
-            <th scope="col"><b>Purchase Date:</b></th>
-          </tr>
+            <tr>
+                <th scope="col"><b>Order #</b></th>
+                <th scope="col"><b>Customer Name:</b></th>
+                <th scope="col"><b>Email:</b></th>
+                <th scope="col"><b>Purchase Total:</b></th>
+                <th scope="col"><b>Purchase Page:</b></th>
+                <th scope="col"><b>Purchase Date:</b></th>
+            </tr>
         </thead>
         <tbody>
             <% for(var i=0; i < orders.length; i++) {%>
                 <tr>
-                    <th scope="row"><%= orders[i].order_number %></th>
-                    <td><%= orders[i].customer_name %></td>
-                    <td><%= orders[i].customer_email %></td>
-                    <td><%= orders[i].total %>€</td>
-                    <td><a href="/purchase_page/<%=orders[i].order_number%>"><i class="material-icons">description</i></a></td>
-                    <td> <%= orders[i].date %></td>
+                    <th scope="row">
+                        <%= orders[i].order_number %>
+                    </th>
+                    <td>
+                        <%= orders[i].customer_name %>
+                    </td>
+                    <td>
+                        <%= orders[i].customer_email %>
+                    </td>
+                    <td>
+                        <%= orders[i].total %>€
+                    </td>
+                    <td><a href="/purchase_page/<%=orders[i].order_number%>"><i
+                                class="material-icons">description</i></a></td>
+                    <td>
+                        <%= orders[i].date %>
+                    </td>
                 </tr>
                 <% } %>
         </tbody>
-      </table>
+    </table>
 
     <br><br>
     <br><br>

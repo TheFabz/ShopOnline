@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 var nodemailer = require('nodemailer');
 app.use(bodyParser.json())
 var shoppingCartArr = [];
-var order_number = 1; 
+var order_number = 1;
 
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
@@ -43,17 +43,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //ROOTUSER SIDE PLATFORM
 
-     //Renders product page in EJS file
-     app.get('/purchase_page/:order_number', (req, res) => {
+    //Renders product page in EJS file
+    app.get('/purchase_page/:order_number', (req, res) => {
 
       let id = req.params.order_number;
 
-      orderCollection.find({order_number:id}).toArray()
+      orderCollection.find({ order_number: id }).toArray()
         .then(results => {
           res.render('purchase_page.ejs', { orders: results })
         }).catch(error => console.error(error))
     })
-    
+
     //Renders template in EJS file
     app.get('/sales_overview', (req, res) => {
       orderCollection.find().toArray()
@@ -77,6 +77,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/root_control', (req, res) => {
       listCollection.find().toArray()
         .then(results => {
+          shuffle(results);
           res.render('root_index.ejs', { items: results })
         }).catch(error => console.error(error))
     })
@@ -110,6 +111,39 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //Renders template in EJS file
     app.get('/root/computers', (req, res) => {
       listCollection.find({ category: "computer" }).toArray()
+        .then(results => {
+          res.render('root_index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+
+    //Renders template in EJS file
+    app.get('/root/computer_accessories', (req, res) => {
+      listCollection.find({ category: "computer_accessories" }).toArray()
+        .then(results => {
+          res.render('root_index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/root/smartphone_accessories', (req, res) => {
+      listCollection.find({ category: "smartphone_accessories" }).toArray()
+        .then(results => {
+          res.render('root_index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/root/bluetooth_speaker', (req, res) => {
+      listCollection.find({ category: "bluetooth_speaker" }).toArray()
+        .then(results => {
+          res.render('root_index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/root/headphones', (req, res) => {
+      listCollection.find({ category: "headphones" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
         }).catch(error => console.error(error));
@@ -211,7 +245,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //Adds selected item from shopping cart array
     app.post('/make_order', (req, res) => {
-      orderCollection.insertOne(req.body,{order_number: order_number})
+      orderCollection.insertOne(req.body, { order_number: order_number })
         .then(result => {
           console.log(result)
           order_number++;
@@ -219,8 +253,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch(error => console.error(error))
 
-      for (var i = -1; i < shoppingCartArr.length ; i++) {
+      for (var i = -1; i < shoppingCartArr.length + 1; i++) {
         shoppingCartArr.pop(shoppingCartArr[i]);
+        console.log(shoppingCartArr[i])
       }
 
     })
@@ -273,6 +308,38 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //Renders template in EJS file
     app.get('/computers', (req, res) => {
       listCollection.find({ category: "computer" }).toArray()
+        .then(results => {
+          res.render('index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/computer_accessories', (req, res) => {
+      listCollection.find({ category: "computer_accessories" }).toArray()
+        .then(results => {
+          res.render('index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/smartphone_accessories', (req, res) => {
+      listCollection.find({ category: "smartphone_accessories" }).toArray()
+        .then(results => {
+          res.render('index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/bluetooth_speaker', (req, res) => {
+      listCollection.find({ category: "bluetooth_speaker" }).toArray()
+        .then(results => {
+          res.render('index.ejs', { items: results })
+        }).catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file
+    app.get('/headphones', (req, res) => {
+      listCollection.find({ category: "headphones" }).toArray()
         .then(results => {
           res.render('index.ejs', { items: results })
         }).catch(error => console.error(error));
@@ -430,40 +497,52 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     function getRecommendationCategory(currentProductCategory) {
       switch (currentProductCategory) {
         case 'computer':
-          relatedCategories = ['keyboard', 'mouse', 'office', 'audio']
+          relatedCategories = ['keyboard', 'mouse', 'office', 'headphones','bluetooth_speakers','computer_accessories']
           break;
         case 'laptop':
-          relatedCategories = ['mouse', 'office', 'audio']
+          relatedCategories = ['mouse', 'office', 'headphones','bluetooth_speakers']
           break;
         case 'mouse':
-          relatedCategories = ['laptop', 'computer', 'keyboard', 'office']
+          relatedCategories = ['laptop', 'computer', 'keyboard', 'office','computer_accessories']
           break;
         case 'keyboard':
-          relatedCategories = ['mouse', 'computer', 'office']
+          relatedCategories = ['mouse', 'computer', 'office','computer_accessories']
           break;
         case 'television':
           relatedCategories = ['office', 'video_game', 'audio']
           break;
         case 'video_games':
-          relatedCategories = ['television', 'audio']
+          relatedCategories = ['television', 'audio','headphones','decoration']
           break;
         case 'office':
-          relatedCategories = ['computer', 'television', 'mouse', 'keyboard']
+          relatedCategories = ['computer', 'television', 'mouse', 'keyboard','computer_accessories', 'bluetooth_speaker']
           break;
         case 'health':
-          relatedCategories = ['beauty', 'decoration']
+          relatedCategories = ['beauty']
           break;
         case 'beauty':
-          relatedCategories = ['health', 'decoration']
+          relatedCategories = ['health']
           break;
         case 'decoration':
-          relatedCategories = ['television', 'office']
+          relatedCategories = ['television', 'office','decoration','video_games']
           break;
         case 'audio':
-          relatedCategories = ['computer', 'laptop', 'television']
+          relatedCategories = ['computer', 'laptop', 'television', 'bluetooth_speaker']
           break;
         case 'smartphone':
-          relatedCategories = ['audio', 'office', 'laptop']
+          relatedCategories = ['headphones',  'bluetooth_speaker','smartphone_accessories']
+          break;
+        case 'smartphone_accessories':
+          relatedCategories = ['headphones', 'smartphone', 'bluetooth_speaker']
+          break;
+        case 'computer_accessories':
+          relatedCategories = ['computer', 'office', 'laptop','headphones']
+          break;
+        case 'headphones':
+          relatedCategories = ['decoration', 'office', 'laptop','computer','computer_accessories','smartphone','smartphone_accessories']
+          break;
+        case 'bluetooth_speaker':
+          relatedCategories = ['audio', 'office', 'laptop',' computer','computer_accessories','smartphone','smartphone_accessories']
           break;
       }
       return relatedCategories[Math.floor(Math.random() * relatedCategories.length)];

@@ -35,21 +35,11 @@
     }
 
     .items {
-
-        margin: auto;
+        justify-content: center;
         display: flex;
         flex-wrap: wrap;
-        flex-direction: row;
         height: 100%;
         width: 100%;
-    }
-
-    .icons {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-around;
-
     }
 
     footer {
@@ -58,9 +48,21 @@
         width: 100%;
     }
 
-    img {
+    .thumbnail {
+        max-width: fit-content;
         width: 100%;
         height: 40%;
+    }
+
+    img {
+        width: 70%;
+        height: 70%;
+    }
+
+    .page_buttons {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
     }
 </style>
 <script>
@@ -82,17 +84,20 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="menu1"
-                        data-toggle="dropdown">Categories
-                    </button>
+                    <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Categories
+                        </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/root_control">All</a>
-                        <a class="dropdown-item" href="/root/computers">Computers</a>
+                        <a class="dropdown-item" href="/root/computers">Desktops</a>
                         <a class="dropdown-item" href="/root/laptops">Laptops</a>
-                        <a class="dropdown-item" href="/root/keyboards">Keyboard</a>
-                        <a class="dropdown-item" href="/root/computer_mouse">Mouse</a>
+                        <a class="dropdown-item" href="/root/computer_accessories">Computer Acessories</a>
+                        <a class="dropdown-item" href="/root/keyboards">Keyboards</a>
+                        <a class="dropdown-item" href="/root/computer_mouse">Computer Mouse</a>
                         <a class="dropdown-item" href="/root/smartphone">SmartPhone</a>
-                        <a class="dropdown-item" href="/root/audio">Audio</a>
+                        <a class="dropdown-item" href="/root/smartphone_accessories">SmartPhone Acessories</a>
+                        <a class="dropdown-item" href="/root/audio">Sound System / Home</a>
+                        <a class="dropdown-item" href="/root/bluetooth_speaker">Bluetooth Speakers</a>
+                        <a class="dropdown-item" href="/root/headphones">Headphones</a>
                         <a class="dropdown-item" href="/root/tv_image">TV & Image</a>
                         <a class="dropdown-item" href="/root/video_games">Console & Video Games</a>
                         <a class="dropdown-item" href="/root/office">Office</a>
@@ -105,7 +110,7 @@
                     <a class="nav-link" href="/sales_overview">Sales Overview</a>
                 </li>
         </div>
-
+        
         </ul>
         <form action="/root_search" method="POST" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
@@ -185,10 +190,17 @@
     <div class="items">
         <div class="jumbotron">
             <% for(var i=0; i < orders.length; i++) {%>
-                <h4 class="display-4">Order #: <%= orders[i].order_number %> </h4>
-                <p>Customer: <em><%= orders[i].customer_name %></em></p>
-                <p>Address: <em><%= orders[i].customer_address %></em></p>
-                <p>Date: <em><%= orders[i].date %></em></p>
+                <h4 class="display-4">Order #: <%= orders[i].order_number %>
+                </h4>
+                <p>Customer: <em>
+                        <%= orders[i].customer_name %>
+                    </em></p>
+                <p>Address: <em>
+                        <%= orders[i].customer_address %>
+                    </em></p>
+                <p>Date: <em>
+                        <%= orders[i].date %>
+                    </em></p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -196,32 +208,42 @@
                             <th scope="col"><b>Product name:</b></th>
                             <th scope="col"><b>Price:</b></th>
                             <th scope="col"><b>Product page:</b></th>
-                            
+
                         </tr>
                         <% } %>
                     </thead>
                     <tbody>
                         <% for(var i=0; i < orders.length; i++) {%>
-                            <% var item_num = (i + 1) %>
-                            <% var in = 0 %>
-                            <% var final_request = request_string + item_num %>
+                            <% var total_items=parseInt(orders[i].total_items) %>
+                                <% var current=0 %>
 
-                            <tr>
-                                <th scope="row">
-                                    <%= i + 1 %>
-                                </th>
-                                <td><%=item_num%></td>
-                                <td>
+                                    <% while (current < total_items ){ %>
+                                        <tr>
+                                            <th scope="row">
+                                                <%= current + 1 %>
+                                            </th>
 
-                                </td>
-                                <td><a href="#">
-                                        <i class="material-icons">description</i>
-                                    </a></td>
-                                
-                            </tr>
-                            <% } %>
+                                            <td>
+                                                <%=orders[i].product[current]%>
+                                            </td>
+                                            <td>
+                                                <%=orders[i].price[current]%>
+                                            </td>
+                                            <td><a href="<%=orders[i].product_page[current]%>">
+                                                    <i class="material-icons">description</i>
+                                                </a></td>
+                                        </tr>
+                                        <% current +=1; };%>
+
+                                            <% } %>
+
                     </tbody>
+
                 </table>
+                <p>Total is:</p>
+                <h1>
+                    <%= orders[0].total %> €
+                </h1>
 
 
         </div>
