@@ -62,7 +62,7 @@
             flex-direction: row;
         }
     </style>
-    <title>ShopOnline</title>
+    <title>Shopping Cart</title>
 </head>
 
 <body>
@@ -218,14 +218,22 @@
                             <input type="hidden" name="order_item_ <%= + (i + 1)  %>"
                                 value="<%= shoppingCartArr[i].product_name %>" />
                             <% } %>
+
+                            <% var orderNumber = 0 %>
                                 <input type="hidden" id="date" name="date" />
                                 <input type="hidden" name="total" value="<%= total %>" />
+                                <input type="hidden" id="order_number" name="order_number" />
 
                                 <script type="text/javascript">
-                                    var d = new Date().toISOString().slice(0, 10)
-                                    // Set the value of the "date" field
-                                    document.getElementById("date").value = d;
+                                // Set the value of the "date" field
+                                    var today = new Date().toISOString().slice(0, 10)
+                                    document.getElementById("date").value = today;
+
+                                    var uniqueId = new Date().valueOf();
+                                    document.getElementById("order_number").value = uniqueId;
+
                                 </script>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Order Now!</button>

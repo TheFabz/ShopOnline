@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 var nodemailer = require('nodemailer');
 app.use(bodyParser.json())
 var shoppingCartArr = [];
+var order_number = 1; 
+
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
@@ -40,6 +42,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //ROOTUSER SIDE PLATFORM
+    
+    //Renders template in EJS file
+    app.get('/sales_overview', (req, res) => {
+      orderCollection.find().toArray()
+        .then(results => {
+          res.render('sales_overview.ejs', { orders: results })
+        }).catch(error => console.error(error))
+    })
 
     //Renders template in EJS file
     app.post('/root_search', (req, res) => {
@@ -190,9 +200,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //Adds selected item from shopping cart array
     app.post('/make_order', (req, res) => {
-      orderCollection.insertOne(req.body)
+      orderCollection.insertOne(req.body,{order_number: order_number})
         .then(result => {
           console.log(result)
+          order_number++;
           res.sendFile(__dirname + '/thank_you.html')
         })
         .catch(error => console.error(error))
