@@ -82,8 +82,9 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Categories
-                        </button>
+                    <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="menu1"
+                        data-toggle="dropdown">Categories
+                    </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/root_control">All</a>
                         <a class="dropdown-item" href="/root/computers">Computers</a>
@@ -104,7 +105,7 @@
                     <a class="nav-link" href="/sales_overview">Sales Overview</a>
                 </li>
         </div>
-        
+
         </ul>
         <form action="/root_search" method="POST" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
@@ -180,47 +181,52 @@
 
     <br>
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Today
-        </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option2" autocomplete="off"> This Week
-        </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off"> This Month
-          </label>
-        <label class="btn btn-secondary">
-          <input type="radio" name="options" id="option3" autocomplete="off"> All
-        </label>
-      </div>
-
-      <br>
-
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col"><b>Order #</b></th>
-            <th scope="col"><b>Customer Name:</b></th>
-            <th scope="col"><b>Email:</b></th>
-            <th scope="col"><b>Purchase Total:</b></th>
-            <th scope="col"><b>Purchase Page:</b></th>
-            <th scope="col"><b>Purchase Date:</b></th>
-          </tr>
-        </thead>
-        <tbody>
+    <!--Displays your order-->
+    <div class="items">
+        <div class="jumbotron">
             <% for(var i=0; i < orders.length; i++) {%>
-                <tr>
-                    <th scope="row"><%= orders[i].order_number %></th>
-                    <td><%= orders[i].customer_name %></td>
-                    <td><%= orders[i].customer_email %></td>
-                    <td><%= orders[i].total %>€</td>
-                    <td><a href="/purchase_page/<%=orders[i].order_number%>"><i class="material-icons">description</i></a></td>
-                    <td> <%= orders[i].date %></td>
-                </tr>
-                <% } %>
-        </tbody>
-      </table>
+                <h4 class="display-4">Order #: <%= orders[i].order_number %> </h4>
+                <p>Customer: <em><%= orders[i].customer_name %></em></p>
+                <p>Address: <em><%= orders[i].customer_address %></em></p>
+                <p>Date: <em><%= orders[i].date %></em></p>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col"><b>Product name:</b></th>
+                            <th scope="col"><b>Price:</b></th>
+                            <th scope="col"><b>Product page:</b></th>
+                            
+                        </tr>
+                        <% } %>
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i < orders.length; i++) {%>
+                            <% var item_num = (i + 1) %>
+                            <% var in = 0 %>
+                            <% var final_request = request_string + item_num %>
+
+                            <tr>
+                                <th scope="row">
+                                    <%= i + 1 %>
+                                </th>
+                                <td><%=item_num%></td>
+                                <td>
+
+                                </td>
+                                <td><a href="#">
+                                        <i class="material-icons">description</i>
+                                    </a></td>
+                                
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+
+
+        </div>
+    </div>
+    <!--Displays your order-->
 
     <br><br>
     <br><br>

@@ -42,6 +42,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //ROOTUSER SIDE PLATFORM
+
+     //Renders product page in EJS file
+     app.get('/purchase_page/:order_number', (req, res) => {
+
+      let id = req.params.order_number;
+
+      orderCollection.find({order_number:id}).toArray()
+        .then(results => {
+          res.render('purchase_page.ejs', { orders: results })
+        }).catch(error => console.error(error))
+    })
     
     //Renders template in EJS file
     app.get('/sales_overview', (req, res) => {
@@ -208,7 +219,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch(error => console.error(error))
 
-      for (var i = 0; i < shoppingCartArr.length + 1; i++) {
+      for (var i = -1; i < shoppingCartArr.length ; i++) {
         shoppingCartArr.pop(shoppingCartArr[i]);
       }
 

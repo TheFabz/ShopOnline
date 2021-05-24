@@ -215,8 +215,16 @@
                         </div>
 
                         <% for(var i=0; i < shoppingCartArr.length; i++) {%>
-                            <input type="hidden" name="order_item_ <%= + (i + 1)  %>"
+                            <input type="hidden" name="order_item_<%= + (i + 1)  %>"
                                 value="<%= shoppingCartArr[i].product_name %>" />
+
+                                <input type="hidden" name="order_item_<%= + (i + 1)  %>_price"
+                                value="<%= shoppingCartArr[i].price %>" />
+
+                                <input type="hidden" name="order_item_<%= + (i + 1)  %>_product_page"
+                                value="/product/<%=shoppingCartArr[i]._id%>" />
+
+
                             <% } %>
 
                             <% var orderNumber = 0 %>
