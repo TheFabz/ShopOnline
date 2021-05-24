@@ -56,13 +56,11 @@
             height: 70%;
         }
 
-        .page_buttons{
+        .page_buttons {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
         }
-
-        
     </style>
     <title>ShopOnline</title>
 </head>
@@ -122,29 +120,27 @@
                         <h5>*MyShopping!*</h5>
                     </a>
                 </li>
-
             </ul>
-
             <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
-
         </div>
     </nav>
     <!--NAV-->
 
     <br><br>
 
+    <!--Displays your order-->
     <div class="items">
         <div class="jumbotron">
             <% var total=0 %>
                 <% for(var i=0; i < shoppingCartArr.length; i++) {%>
                     <% total=total + parseInt(shoppingCartArr[i].price) %>
                         <% } %>
-                            <h3 class="display-4">
-                                Your order:
-                            </h3>
+
+                            <h3 class="display-4">Your order:</h3>
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -167,8 +163,9 @@
                                             <td>
                                                 <%= parseInt(shoppingCartArr[i].price) %>€
                                             </td>
-                                            <td><a href="/product/<%=shoppingCartArr[i]._id%>"><i
-                                                        class="material-icons">description</i></a></td>
+                                            <td><a href="/product/<%=shoppingCartArr[i]._id%>">
+                                                    <iclass="material-icons">description</i>
+                                                </a></td>
                                             <td><a href="/remove_from_cart/<%=shoppingCartArr[i]._id%>"
                                                     class="card-link"><i class="material-icons">clear</i></a></td>
                                         </tr>
@@ -190,7 +187,7 @@
                             </div>
         </div>
     </div>
-
+    <!--Displays your order-->
 
     <!-- Footer -->
     <footer class="page-footer font-small blue">

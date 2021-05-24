@@ -131,6 +131,7 @@
 
     <br>
 
+    <!--Recommended display cards-->
     <div class="items">
         <div class="jumbotron">
             <% for(var i=0 ; i < 2 ; i++) {%>
@@ -151,13 +152,13 @@
                 </h1>
                 <div class="page_buttons">
                     <p class="lead">
-                        <form action="/add_to_cart" method="POST">
-                            <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
-                            <input type="hidden" name="price" value="1<%= items[i].price %>" />
-                            <input type="hidden" name="_id" value="<%= items[i]._id %>" />
-                            <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
-                        </form>
-                        </p>
+                    <form action="/add_to_cart" method="POST">
+                        <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
+                        <input type="hidden" name="price" value="1<%= items[i].price %>" />
+                        <input type="hidden" name="_id" value="<%= items[i]._id %>" />
+                        <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
+                    </form>
+                    </p>
                     <p class="lead">
                         <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
                             Recommended Bundles</a>
@@ -166,6 +167,7 @@
                 <% } %>
         </div>
     </div>
+    <!--Recommended display cards-->
 
 
     <br>

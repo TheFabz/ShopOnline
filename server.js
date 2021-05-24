@@ -11,20 +11,14 @@ var nodemailer = require('nodemailer');
 app.use(bodyParser.json())
 var shoppingCartArr = [];
 
-
-
-
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Server logs message when server turns on successfully
     console.log('Connected to Database')
-
     //Connects to DB
     const db = client.db('online_store')
-
     //Connects to collection list-items
     const listCollection = db.collection('products')
 
@@ -41,7 +35,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         res.redirect('/')
       }
     });
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //ROOTUSER SIDE PLATFORM
@@ -50,9 +43,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.post('/root_search', (req, res) => {
 
       const userInput = req.body.input;
-
       console.log("Root searched for:" + userInput);
-
       listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -85,7 +76,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //POST that adds new items to collection
     app.post('/add_list_item', (req, res) => {
-
       listCollection.insertOne(req.body)
         .then(result => {
           console.log(result)
@@ -193,7 +183,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     //CUSTOMER SIDE PLATFORM
 
     //Adds selected item from shopping cart array
@@ -204,7 +193,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //Removes selected item from shopping cart array
     app.get('/remove_from_cart/:id', (req, res) => {
-
       for (let i = 0; i < shoppingCartArr.length; i++) {
         if (shoppingCartArr[i]._id === req.params.id) {
           shoppingCartArr.pop(shoppingCartArr[i])
@@ -342,7 +330,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/product/:id', (req, res) => {
 
       let id = req.params.id;
-
       listCollection.find({ _id: new mongo.ObjectId(id) }).toArray()
         .then(results => {
           res.render('product_page.ejs', { items: results })
@@ -401,7 +388,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //basis for recommendation algorithm;
     function getRecommendationCategory(currentProductCategory) {
-
       switch (currentProductCategory) {
         case 'computer':
           relatedCategories = ['keyboard', 'mouse', 'office', 'audio']
@@ -477,11 +463,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     // GENERAL FUNCTIONALITY;
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   })
-
 
 /** for use in cloud 
 app.listen(process.env.PORT, function () {

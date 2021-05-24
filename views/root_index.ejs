@@ -41,7 +41,7 @@
             width: 100%;
         }
 
-        .icons{
+        .icons {
             display: flex;
             flex-wrap: wrap;
             flex-direction: row;
@@ -113,13 +113,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/root/home_decoration">Decoration & Home</a>
                 </li>
-
-
             </ul>
             <form action="/root_search" method="POST" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="input" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-              </form>
+            </form>
             <span class="navbar-text">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-add"
                     data-whatever="@mdo">Add Product!</button>
@@ -188,7 +186,6 @@
     </div>
     <!--Add entry form-->
 
-
     <br>
 
     <!--cards with events-->
@@ -204,67 +201,72 @@
                         <h6 class="card-subtitle mb-2 text-muted">
                             <%= items[i].price %> €
                         </h6>
-                        <a href="/product/<%=items[i]._id%>" ><img src="<%= items[i].image_url %>" alt="<%= items[i].product_name %>"></a>
+                        <a href="/product/<%=items[i]._id%>"><img src="<%= items[i].image_url %>"
+                                alt="<%= items[i].product_name %>"></a>
                         <div class="card-body text-success">
 
                         </div>
                         <div class="icons">
-                        <a href="/product/<%=items[i]._id%>" class="card-link"><i class="material-icons">description</i></a>
-                        <a href="#"><i class="material-icons" data-toggle="modal" data-target="#exampleModal-<%=items[i]._id%>" data-whatever="@mdo" >edit_note</i></a>
-                    
-                        <div class="modal fade" id="exampleModal-<%=items[i]._id%>" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
+                            <a href="/product/<%=items[i]._id%>" class="card-link"><i
+                                    class="material-icons">description</i></a>
+                            <a href="#"><i class="material-icons" data-toggle="modal"
+                                    data-target="#exampleModal-<%=items[i]._id%>" data-whatever="@mdo">edit_note</i></a>
 
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Edit Entry</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
+                            <div class="modal fade" id="exampleModal-<%=items[i]._id%>" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
 
-                                    <div class="modal-body">
-                                        <form action="/edit/<%=items[i]._id%>" method="POST">
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Product name:</label>
-                                                <input type="text" class="form-control" name="product_name"
-                                                    value="<%= items[i].product_name %>" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Price:</label>
-                                                <input type="number" class="form-control" name="price"
-                                                    value="<%= items[i].price %>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Description:</label>
-                                                <input type="text" class="form-control" name="description"
-                                                    value="<%= items[i].description %>" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Image URL:</label>
-                                                <input type="text" class="form-control" name="image_url"
-                                                    value="<%= items[i].image_url %>" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Category:</label>
-                                                <input type="text" class="form-control" name="category"
-                                                    value="<%= items[i].category %>" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Make changes!</button>
-                                            </div>
-                                        </form>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Entry</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form action="/edit/<%=items[i]._id%>" method="POST">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Product
+                                                        name:</label>
+                                                    <input type="text" class="form-control" name="product_name"
+                                                        value="<%= items[i].product_name %>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Price:</label>
+                                                    <input type="number" class="form-control" name="price"
+                                                        value="<%= items[i].price %>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name"
+                                                        class="col-form-label">Description:</label>
+                                                    <input type="text" class="form-control" name="description"
+                                                        value="<%= items[i].description %>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Image
+                                                        URL:</label>
+                                                    <input type="text" class="form-control" name="image_url"
+                                                        value="<%= items[i].image_url %>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Category:</label>
+                                                    <input type="text" class="form-control" name="category"
+                                                        value="<%= items[i].category %>" required>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Make changes!</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <a href="/delete/<%=items[i]._id%>" class="card-link"><i
+                                    class="material-icons">clear</i></a>
                         </div>
-
-                        
-                        <a href="/delete/<%=items[i]._id%>" class="card-link"><i class="material-icons">clear</i></a>
-                    </div>
                     </div>
                 </div>
                 <% } %>
