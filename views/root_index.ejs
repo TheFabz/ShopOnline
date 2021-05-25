@@ -87,17 +87,17 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/root_control">All</a>
-                        <a class="dropdown-item" href="/root/computers">Desktops</a>
-                        <a class="dropdown-item" href="/root/laptops">Laptops</a>
+                        <a class="dropdown-item" href="/root/computer">Desktops</a>
+                        <a class="dropdown-item" href="/root/laptop">Laptops</a>
                         <a class="dropdown-item" href="/root/computer_accessories">Computer Acessories</a>
-                        <a class="dropdown-item" href="/root/keyboards">Keyboards</a>
-                        <a class="dropdown-item" href="/root/computer_mouse">Computer Mouse</a>
+                        <a class="dropdown-item" href="/root/keyboard">Keyboards</a>
+                        <a class="dropdown-item" href="/root/mouse">Computer Mouse</a>
                         <a class="dropdown-item" href="/root/smartphone">SmartPhone</a>
                         <a class="dropdown-item" href="/root/smartphone_accessories">SmartPhone Acessories</a>
                         <a class="dropdown-item" href="/root/audio">Sound System / Home</a>
                         <a class="dropdown-item" href="/root/bluetooth_speaker">Bluetooth Speakers</a>
                         <a class="dropdown-item" href="/root/headphones">Headphones</a>
-                        <a class="dropdown-item" href="/root/tv_image">TV & Image</a>
+                        <a class="dropdown-item" href="/root/television">TV & Image</a>
                         <a class="dropdown-item" href="/root/video_games">Console & Video Games</a>
                         <a class="dropdown-item" href="/root/office">Office</a>
                         <a class="dropdown-item" href="/root/health">Health</a>
@@ -255,7 +255,9 @@
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Category:</label>
                                                     <select name="category">
-                                                        <option name="computer" value="<%= items[i].category %>"><%= items[i].category %></option>
+                                                        <option name="computer" value="<%= items[i].category %>">
+                                                            <%= items[i].category %>
+                                                        </option>
                                                         <option name="computer" value="computer">Desktop</option>
                                                         <option name="computer_accessories"
                                                             value="computer_accessories">Computer Accessories</option>

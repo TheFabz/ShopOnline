@@ -95,7 +95,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       let id = req.params.id;
       let updatedItem = { product_name: req.body.product_name, price: req.body.price, description: req.body.description, image_url: req.body.image_url, category: req.body.category };
       listCollection.updateOne({ "_id": mongoObjId(id) }, { $set: updatedItem });
-      res.redirect('/root_control')
+      res.redirect('/' + 'root/' + req.body.category)
     });
 
     //POST that adds new items to collection
@@ -109,7 +109,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/computers', (req, res) => {
+    app.get('/root/computer', (req, res) => {
       listCollection.find({ category: "computer" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -158,7 +158,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/keyboards', (req, res) => {
+    app.get('/root/keyboard', (req, res) => {
       listCollection.find({ category: "keyboard" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -166,7 +166,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/laptops', (req, res) => {
+    app.get('/root/laptop', (req, res) => {
       listCollection.find({ category: "laptop" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -190,7 +190,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/home_decoration', (req, res) => {
+    app.get('/root/decoration', (req, res) => {
       listCollection.find({ category: "decoration" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -214,7 +214,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/tv_image', (req, res) => {
+    app.get('/root/television', (req, res) => {
       listCollection.find({ category: "television" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -222,7 +222,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
 
     //Renders template in EJS file
-    app.get('/root/computer_mouse', (req, res) => {
+    app.get('/root/mouse', (req, res) => {
       listCollection.find({ category: "mouse" }).toArray()
         .then(results => {
           res.render('root_index.ejs', { items: results })
@@ -497,25 +497,25 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     function getRecommendationCategory(currentProductCategory) {
       switch (currentProductCategory) {
         case 'computer':
-          relatedCategories = ['keyboard', 'mouse', 'office', 'headphones','bluetooth_speakers','computer_accessories']
+          relatedCategories = ['keyboard', 'mouse', 'audio', 'office', 'headphones', 'bluetooth_speakers', 'computer_accessories']
           break;
         case 'laptop':
-          relatedCategories = ['mouse', 'office', 'headphones','bluetooth_speakers']
+          relatedCategories = ['mouse', 'office', 'headphones', 'bluetooth_speakers']
           break;
         case 'mouse':
-          relatedCategories = ['laptop', 'computer', 'keyboard', 'office','computer_accessories']
+          relatedCategories = ['laptop', 'computer', 'keyboard', 'office', 'computer_accessories']
           break;
         case 'keyboard':
-          relatedCategories = ['mouse', 'computer', 'office','computer_accessories']
+          relatedCategories = ['mouse', 'computer', 'office', 'computer_accessories']
           break;
         case 'television':
           relatedCategories = ['office', 'video_game', 'audio']
           break;
         case 'video_games':
-          relatedCategories = ['television', 'audio','headphones','decoration']
+          relatedCategories = ['television', 'audio', 'headphones', 'decoration']
           break;
         case 'office':
-          relatedCategories = ['computer', 'television', 'mouse', 'keyboard','computer_accessories', 'bluetooth_speaker']
+          relatedCategories = ['computer', 'television', 'mouse', 'keyboard', 'computer_accessories', 'bluetooth_speaker']
           break;
         case 'health':
           relatedCategories = ['beauty']
@@ -524,25 +524,25 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           relatedCategories = ['health']
           break;
         case 'decoration':
-          relatedCategories = ['television', 'office','decoration','video_games']
+          relatedCategories = ['television', 'office', 'decoration', 'video_games']
           break;
         case 'audio':
           relatedCategories = ['computer', 'laptop', 'television', 'bluetooth_speaker']
           break;
         case 'smartphone':
-          relatedCategories = ['headphones',  'bluetooth_speaker','smartphone_accessories']
+          relatedCategories = ['headphones', 'bluetooth_speaker', 'smartphone_accessories']
           break;
         case 'smartphone_accessories':
           relatedCategories = ['headphones', 'smartphone', 'bluetooth_speaker']
           break;
         case 'computer_accessories':
-          relatedCategories = ['computer', 'office', 'laptop','headphones']
+          relatedCategories = ['computer', 'office', 'laptop', 'headphones']
           break;
         case 'headphones':
-          relatedCategories = ['decoration', 'office', 'laptop','computer','computer_accessories','smartphone','smartphone_accessories']
+          relatedCategories = ['decoration', 'office', 'laptop', 'computer', 'computer_accessories', 'smartphone', 'smartphone_accessories']
           break;
         case 'bluetooth_speaker':
-          relatedCategories = ['audio', 'office', 'laptop',' computer','computer_accessories','smartphone','smartphone_accessories']
+          relatedCategories = ['audio', 'office', 'laptop', ' computer', 'computer_accessories', 'smartphone', 'smartphone_accessories']
           break;
       }
       return relatedCategories[Math.floor(Math.random() * relatedCategories.length)];
