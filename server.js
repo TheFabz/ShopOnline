@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 var nodemailer = require('nodemailer');
 app.use(bodyParser.json())
 var shoppingCartArr = [];
-var order_number = 1;
 
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
@@ -25,6 +24,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     const listCollection = db.collection('products');
     //Connects to orders collection;
     const orderCollection = db.collection('orders')
+    //Connects to reviews collection;
+    const reviewCollection = db.collection('reviews')
 
     //Authenticates user / staff - Website main
     app.post('/login', (req, res, next) => {
@@ -243,12 +244,37 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //CUSTOMER SIDE PLATFORM
 
 
-    //Adds selected item from shopping cart array
-    app.post('/make_order', (req, res) => {
-      orderCollection.insertOne(req.body, { order_number: order_number })
+    //Renders template in EJS file
+    app.get('/reviews_page/:id', (req, res) => {
+      reviewCollection.find({product_id: req.params.id}).toArray()
+        .then(results => {
+          shuffle(results);
+          if(results.length === 0){
+            res.sendFile(__dirname + '/no_reviews.html')
+          }
+          else{
+          res.render('reviews_page.ejs', { reviewsArr: results })
+        }
+        }).catch(error => console.error(error));
+    })
+
+
+     //Adds review item from into reviews db;
+    app.post('/write_review', (req, res) => {
+      reviewCollection.insertOne(req.body)
         .then(result => {
           console.log(result)
-          order_number++;
+          res.redirect("/reviews_page/" + req.body.product_id);
+        })
+        .catch(error => console.error(error))
+    })
+    
+
+    //Adds selected item from shopping cart array
+    app.post('/make_order', (req, res) => {
+      orderCollection.insertOne(req.body)
+        .then(result => {
+          console.log(result)
           res.sendFile(__dirname + '/thank_you.html')
         })
         .catch(error => console.error(error))
@@ -497,10 +523,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     function getRecommendationCategory(currentProductCategory) {
       switch (currentProductCategory) {
         case 'computer':
-          relatedCategories = ['keyboard', 'mouse', 'audio', 'office', 'headphones', 'bluetooth_speakers', 'computer_accessories']
+          relatedCategories = ['keyboard', 'mouse', 'audio', 'office', 'headphones', 'bluetooth_speaker', 'computer_accessories']
           break;
         case 'laptop':
-          relatedCategories = ['mouse', 'office', 'headphones', 'bluetooth_speakers']
+          relatedCategories = ['mouse', 'office', 'headphones', 'bluetooth_speaker']
           break;
         case 'mouse':
           relatedCategories = ['laptop', 'computer', 'keyboard', 'office', 'computer_accessories']

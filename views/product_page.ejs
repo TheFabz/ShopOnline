@@ -181,11 +181,85 @@
                         <a class="btn btn-primary btn-lg" href="/recommended/<%= items[i]._id %>" role="button">See
                             Recommended Bundles</a>
                     </p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal"
+                            data-target="#exampleModal-add" data-whatever="@mdo">Write review!</a>
+                    </p>
+                    <p class="lead">
+                        <a class="btn btn-info btn-lg" href="/reviews_page/<%= items[i]._id %>"
+                            role="button">Reviews</a>
+                    </p>
                 </div>
                 <% } %>
         </div>
     </div>
     <!--Product display card-->
+
+
+    <!--review details form-->
+    <div class="modal fade" id="exampleModal-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tell us what you think ! </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/write_review" method="POST">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Name:</label>
+                            <input type="text" required class="form-control" name="customer_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="email" required class="form-control" name="customer_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Star Rating:</label>
+                            <select name="star_rating">
+                                <option name="star_rating" value="1">1</option>
+                                <option name="star_rating" value="2">2</option>
+                                <option name="star_rating" value="3">3</option>
+                                <option name="star_rating" value="4">4</option>
+                                <option name="star_rating" value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Feedback:</label>
+                            <input type="text" required class="form-control" name="review_content">
+                        </div>
+
+                        <% for(var i=0; i < items.length; i++) {%>
+                            <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
+
+                            <input type="hidden" name="price" value="<%= items[i].price %>" />
+
+                            <input type="hidden" name="product_id" value="<%=items[i]._id%>" />
+
+                            <% } %>
+
+                                <input type="hidden" id="date" name="date" />
+
+                                <script type="text/javascript">
+                                    // Set the value of the "date" field
+                                    var today = new Date().toISOString().slice(0, 10)
+                                    document.getElementById("date").value = today;
+                                </script>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit review!</button>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--review details form-->
 
     <br>
     <br>

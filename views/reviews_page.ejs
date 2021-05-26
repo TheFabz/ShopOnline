@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -33,12 +34,9 @@
         }
 
         .items {
-
-            margin: auto;
             justify-content: center;
             display: flex;
             flex-wrap: wrap;
-            flex-direction: row;
             height: 100%;
             width: 100%;
         }
@@ -55,20 +53,21 @@
             height: 40%;
         }
 
-        .plus_sign {
-            position: relative;
-            max-width: fit-content;
-            width: 10%;
-            height: 10%;
+        img {
+            width: 70%;
+            height: 70%;
+        }
+
+        .page_buttons {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: row;
         }
     </style>
-    <title>Product Page</title>
+    <title>Reviews</title>
 </head>
 
 <body>
-
     <!--NAV-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="/main_page">ShopOnline</a>
@@ -148,19 +147,48 @@
     </nav>
     <!--NAV-->
 
-    <br>
-    <br>
+    <br><br>
 
-    <!--not found text box-->
+    <!--Displays reviews-->
     <div class="items">
         <div class="jumbotron">
-            <p>Your order is complete.</p>
-            <h1 class="display-4">Thank you for your business!</h1>
-            <a class="btn btn-primary btn-lg" href="/main_page" role="button">Back to start</a>
+            <div class="list-group"></div>
+            <% var starRatingSum=0 %>
+            <% var product_name="" %>
+
+            <% for(var i=0; i < reviewsArr.length; i++) {%>
+                <% starRatingSum=starRatingSum + parseInt(reviewsArr[i].star_rating) %>
+                <% product_name=reviewsArr[i].product_name %>
+            <% } %>
+
+            <% var starAverage=starRatingSum / reviewsArr.length %>
+
+            <h3 class="display-4"><%= product_name %> reviews:
+            </h3>
+
+            <p>
+            <%= starAverage.toFixed(1) %> / 5
+            </p>
+
+            <% for(var i=0; i < reviewsArr.length; i++) {%>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><%= reviewsArr[i].customer_name %> writes:
+                            </h5>
+                            <small class="text-muted"><%= reviewsArr[i].date %>
+                            </small>
+                        </div>
+                        <p class="mb-1"><%= reviewsArr[i].review_content %>
+                        </p>
+                        <small class="text-muted">
+                            Star rating: <%= reviewsArr[i].star_rating%> / 5
+                        </small>
+                    </a>
+                <% } %>
+            </li>
         </div>
     </div>
-    <!--not found text box-->
-
+    <!--Displays reviews-->
 
     <br>
     <br>
@@ -189,5 +217,4 @@
     <script type="text/javascript" src="script.js"></script>
 
 </body>
-
 </html>
