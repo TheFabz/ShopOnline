@@ -8,6 +8,7 @@ const mongoObjId = require('mongodb').ObjectID;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }))
 var nodemailer = require('nodemailer');
+app.use('/', require('./customer_routes'));
 app.use(bodyParser.json())
 var shoppingCartArr = [];
 
@@ -33,7 +34,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log("consumer has logged in")
         res.redirect('/main_page')
       }
-      if (req.body.username == "root" && req.body.password == "root") {
+      if (req.body.username == "fab" && req.body.password == "fab") {
         console.log("staff has logged in")
         res.redirect('/root_control')
       } else {
@@ -48,10 +49,79 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/purchase_page/:order_number', (req, res) => {
 
       let id = req.params.order_number;
-
       orderCollection.find({ order_number: id }).toArray()
         .then(results => {
           res.render('purchase_page.ejs', { orders: results })
+        }).catch(error => console.error(error))
+    })
+
+    //Renders template in EJS file, daily events
+    app.get('/reviews_control/today', (req, res) => {
+
+      let today = new Date().toISOString().slice(0, 10)
+
+        reviewCollection.find({ date: today }).toArray()
+        .then(results => {
+
+          res.render('reviews_control.ejs', { reviews: results })
+        })
+        .catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file, daily events
+    app.get('/reviews_control/month', (req, res) => {
+
+      let date = new Date();
+      let month = "0" + parseInt(date.getMonth() + 1);
+      let monthlyReviews = [];
+    
+      console.log(month)
+        reviewCollection.find({}).toArray()
+        .then(results => {
+
+          for (var i = 0 ; i < results.length; i++) {
+            if(results[i].date.slice(5, 7) == month){
+              monthlyReviews.push(results[i])
+            }
+          }
+          res.render('reviews_control.ejs', { reviews: monthlyReviews})
+          
+        })
+        .catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file, daily events
+    app.get('/reviews_control/year', (req, res) => {
+
+      let date = new Date();
+      let year = date.getFullYear();
+      let yearlyReviews = [];
+    
+        reviewCollection.find({}).toArray()
+        .then(results => {
+          for (var i = 0 ; i < results.length; i++) {
+            if(results[i].date.slice(0, 4) == year){
+              yearlyReviews.push(results[i])
+            }
+          }
+          res.render('reviews_control.ejs', { reviews: yearlyReviews })
+        
+        })
+        .catch(error => console.error(error));
+    })
+
+    //delete item from within web ui;
+    app.get('/delete_review/:id', function (req, res) {
+      let id = req.params.id;
+      reviewCollection.deleteOne({ _id: mongoObjId(id) })
+      res.redirect('/reviews_control')
+    });
+
+    //Renders template in EJS file
+    app.get('/reviews_control', (req, res) => {
+      reviewCollection.find().toArray()
+        .then(results => {
+          res.render('reviews_control.ejs', { reviews: results })
         }).catch(error => console.error(error))
     })
 
@@ -62,6 +132,70 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           res.render('sales_overview.ejs', { orders: results })
         }).catch(error => console.error(error))
     })
+
+    //Renders template in EJS file, daily events
+    app.get('/sales_overview/today', (req, res) => {
+
+      let today = new Date().toISOString().slice(0, 10)
+
+        orderCollection.find({ date: today }).toArray()
+        .then(results => {
+
+          res.render('sales_overview.ejs', { orders: results })
+        })
+        .catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file, daily events
+    app.get('/sales_overview/month', (req, res) => {
+
+      let date = new Date();
+      let month = "0" + parseInt(date.getMonth() + 1);
+      let monthlyOrders = [];
+    
+      console.log(month)
+        orderCollection.find({}).toArray()
+        .then(results => {
+
+          for (var i = 0 ; i < results.length; i++) {
+            if(results[i].date.slice(5, 7) == month){
+              monthlyOrders.push(results[i])
+            }
+          }
+
+          res.render('sales_overview.ejs', { orders: monthlyOrders})
+          
+        })
+        .catch(error => console.error(error));
+    })
+
+    //Renders template in EJS file, daily events
+    app.get('/sales_overview/year', (req, res) => {
+
+      let date = new Date();
+      let year = date.getFullYear();
+      let yearlyOrders = [];
+    
+
+        orderCollection.find({}).toArray()
+        .then(results => {
+
+          for (var i = 0 ; i < results.length; i++) {
+            if(results[i].date.slice(0, 4) == year){
+              yearlyOrders.push(results[i])
+            }
+          }
+
+          res.render('sales_overview.ejs', { orders: yearlyOrders })
+
+          for (var i = 0 ; i < yearlyOrders.length; i++) {
+              yearlyOrders.pop(results[i]);
+            }
+          
+        })
+        .catch(error => console.error(error));
+    })
+
 
     //Renders template in EJS file
     app.post('/root_search', (req, res) => {
@@ -86,8 +220,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     //delete item from within web ui;
     app.get('/delete/:id', function (req, res) {
       let id = req.params.id;
-      listCollection.deleteOne({ _id: new mongo.ObjectId(id) }, function (err, results) { });
-
+      listCollection.deleteOne({ _id: mongoObjId(id) })
       res.redirect('/root_control')
     });
 
@@ -104,8 +237,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       listCollection.insertOne(req.body)
         .then(result => {
           console.log(result)
-          res.redirect('/root_control')
+          
         })
+        res.redirect('/' + 'root/' + req.body.category)
         .catch(error => console.error(error))
     })
 
@@ -116,7 +250,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           res.render('root_index.ejs', { items: results })
         }).catch(error => console.error(error));
     })
-
 
     //Renders template in EJS file
     app.get('/root/computer_accessories', (req, res) => {

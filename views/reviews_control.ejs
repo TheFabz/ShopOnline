@@ -188,10 +188,10 @@
     <div class="items">
 
         <div class="btn-group" role="group" aria-label="Basic example">
-            <a class="btn btn-secondary active" type="button" href="/sales_overview/today">Today</a>
-            <a class="btn btn-secondary active" type="button" href="/sales_overview/month">This Month</a>
-            <a class="btn btn-secondary active" type="button" href="/sales_overview/year">This Year</a>
-            <a class="btn btn-secondary active" type="button" href="/sales_overview">All</a>
+            <a class="btn btn-secondary active" type="button" href="/reviews_control/today">Today</a>
+            <a class="btn btn-secondary active" type="button" href="/reviews_control/month">This Month</a>
+            <a class="btn btn-secondary active" type="button" href="/reviews_control/year">This Year</a>
+            <a class="btn btn-secondary active" type="button" href="/reviews_control">All</a>
         </div>
 
 
@@ -202,42 +202,47 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col"><b>Order #</b></th>
-
+                        <th scope="col"><b>Review #</b></th>
+                        <th scope="col"><b>Product:</b></th>
                         <th scope="col"><b>Name:</b></th>
-                        <th scope="col"><b>Total:</b></th>
+                        <th scope="col"><b>Email:</b></th>
+                        <th scope="col"><b>Star Rating:</b></th>
                         <th scope="col"><b>Page:</b></th>
                         <th scope="col"><b>Date:</b></th>
+                        <th scope="col"><b>Delete:</b></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% var total=0 %>
-                    <% for(var i=0; i < orders.length; i++) {%>
-                        <% total=total + parseInt(orders[i].total) %>
+                    <% for(var i=0; i < reviews.length; i++) {%>
                         <tr>
                             <th scope="row">
-                                <%= orders[i].order_number %>
+                                <%= (i+1) %>
                             </th>
                             <td>
-                                <%= orders[i].customer_name %>
+                                <%= reviews[i].product_name %>
+                            </td>
+                            <td>
+                                <%= reviews[i].customer_name %>
+                            </td>
+                            <td>
+                                <%= reviews[i].customer_email%>
+                            </td>
+                            <td>
+                                <%= reviews[i].star_rating%>
+                            </td>
+                            <td><a href="/product/<%=reviews[i].product_id%>"><i
+                                        class="material-icons">description</i></a>
+                            </td>
+                            <td>
+                                <%= reviews[i].date%>
+                            </td>
+                            <td><a href="/delete_review/<%=reviews[i]._id%>"><i class="material-icons">clear</i></a>
                             </td>
 
-                            <td>
-                                <%= orders[i].total %>€
-                            </td>
-                            <td><a href="/purchase_page/<%=orders[i].order_number%>"><i
-                                        class="material-icons">description</i></a></td>
-                            <td>
-                                <%= orders[i].date %>
-                            </td>
                         </tr>
                         <% } %>
                 </tbody>
             </table>
-            <p>Total Sales:</p>
-                            <h1>
-                                <%= total %> €
-                            </h1>
         </div>
     </div>
 

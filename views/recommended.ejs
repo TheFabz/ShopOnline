@@ -172,7 +172,7 @@
                     <p class="lead">
                     <form action="/add_to_cart" method="POST">
                         <input type="hidden" name="product_name" value="<%= items[i].product_name %>" />
-                        <input type="hidden" name="price" value="1<%= items[i].price %>" />
+                        <input type="hidden" name="price" value="<%= items[i].price %>" />
                         <input type="hidden" name="_id" value="<%= items[i]._id %>" />
                         <button type="submit" class="btn btn-secondary btn-lg">Add to cart!</button>
                     </form>
