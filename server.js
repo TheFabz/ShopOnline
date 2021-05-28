@@ -7,8 +7,6 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoObjId = require('mongodb').ObjectID;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }))
-var nodemailer = require('nodemailer');
-app.use('/', require('./customer_routes'));
 app.use(bodyParser.json())
 var shoppingCartArr = [];
 
@@ -47,7 +45,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //Renders product page in EJS file
     app.get('/purchase_page/:order_number', (req, res) => {
-
       let id = req.params.order_number;
       orderCollection.find({ order_number: id }).toArray()
         .then(results => {
@@ -60,9 +57,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
       let today = new Date().toISOString().slice(0, 10)
 
-        reviewCollection.find({ date: today }).toArray()
+      reviewCollection.find({ date: today }).toArray()
         .then(results => {
-
           res.render('reviews_control.ejs', { reviews: results })
         })
         .catch(error => console.error(error));
@@ -74,18 +70,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       let date = new Date();
       let month = "0" + parseInt(date.getMonth() + 1);
       let monthlyReviews = [];
-    
+
       console.log(month)
-        reviewCollection.find({}).toArray()
+      reviewCollection.find({}).toArray()
         .then(results => {
 
-          for (var i = 0 ; i < results.length; i++) {
-            if(results[i].date.slice(5, 7) == month){
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].date.slice(5, 7) == month) {
               monthlyReviews.push(results[i])
             }
           }
-          res.render('reviews_control.ejs', { reviews: monthlyReviews})
-          
+          res.render('reviews_control.ejs', { reviews: monthlyReviews })
         })
         .catch(error => console.error(error));
     })
@@ -96,16 +91,15 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       let date = new Date();
       let year = date.getFullYear();
       let yearlyReviews = [];
-    
-        reviewCollection.find({}).toArray()
+
+      reviewCollection.find({}).toArray()
         .then(results => {
-          for (var i = 0 ; i < results.length; i++) {
-            if(results[i].date.slice(0, 4) == year){
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].date.slice(0, 4) == year) {
               yearlyReviews.push(results[i])
             }
           }
           res.render('reviews_control.ejs', { reviews: yearlyReviews })
-        
         })
         .catch(error => console.error(error));
     })
@@ -138,9 +132,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
       let today = new Date().toISOString().slice(0, 10)
 
-        orderCollection.find({ date: today }).toArray()
+      orderCollection.find({ date: today }).toArray()
         .then(results => {
-
           res.render('sales_overview.ejs', { orders: results })
         })
         .catch(error => console.error(error));
@@ -152,19 +145,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       let date = new Date();
       let month = "0" + parseInt(date.getMonth() + 1);
       let monthlyOrders = [];
-    
+
       console.log(month)
-        orderCollection.find({}).toArray()
+      orderCollection.find({}).toArray()
         .then(results => {
 
-          for (var i = 0 ; i < results.length; i++) {
-            if(results[i].date.slice(5, 7) == month){
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].date.slice(5, 7) == month) {
               monthlyOrders.push(results[i])
             }
           }
-
-          res.render('sales_overview.ejs', { orders: monthlyOrders})
-          
+          res.render('sales_overview.ejs', { orders: monthlyOrders })
         })
         .catch(error => console.error(error));
     })
@@ -175,23 +166,22 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       let date = new Date();
       let year = date.getFullYear();
       let yearlyOrders = [];
-    
 
-        orderCollection.find({}).toArray()
+
+      orderCollection.find({}).toArray()
         .then(results => {
 
-          for (var i = 0 ; i < results.length; i++) {
-            if(results[i].date.slice(0, 4) == year){
+          for (var i = 0; i < results.length; i++) {
+            if (results[i].date.slice(0, 4) == year) {
               yearlyOrders.push(results[i])
             }
           }
 
           res.render('sales_overview.ejs', { orders: yearlyOrders })
 
-          for (var i = 0 ; i < yearlyOrders.length; i++) {
-              yearlyOrders.pop(results[i]);
-            }
-          
+          for (var i = 0; i < yearlyOrders.length; i++) {
+            yearlyOrders.pop(results[i]);
+          }
         })
         .catch(error => console.error(error));
     })
@@ -237,9 +227,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       listCollection.insertOne(req.body)
         .then(result => {
           console.log(result)
-          
+
         })
-        res.redirect('/' + 'root/' + req.body.category)
+      res.redirect('/' + 'root/' + req.body.category)
         .catch(error => console.error(error))
     })
 
@@ -379,20 +369,20 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
     //Renders template in EJS file
     app.get('/reviews_page/:id', (req, res) => {
-      reviewCollection.find({product_id: req.params.id}).toArray()
+      reviewCollection.find({ product_id: req.params.id }).toArray()
         .then(results => {
           shuffle(results);
-          if(results.length === 0){
-            res.sendFile(__dirname + '/no_reviews.html')
+          if (results.length === 0) {
+            res.sendFile(__dirname + '/static_html_pages/no_reviews.html')
           }
-          else{
-          res.render('reviews_page.ejs', { reviewsArr: results })
-        }
+          else {
+            res.render('reviews_page.ejs', { reviewsArr: results })
+          }
         }).catch(error => console.error(error));
     })
 
 
-     //Adds review item from into reviews db;
+    //Adds review item from into reviews db;
     app.post('/write_review', (req, res) => {
       reviewCollection.insertOne(req.body)
         .then(result => {
@@ -401,14 +391,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch(error => console.error(error))
     })
-    
+
 
     //Adds selected item from shopping cart array
     app.post('/make_order', (req, res) => {
       orderCollection.insertOne(req.body)
         .then(result => {
           console.log(result)
-          res.sendFile(__dirname + '/thank_you.html')
+          res.sendFile(__dirname + '/static_html_pages/thank_you.html')
         })
         .catch(error => console.error(error))
 
@@ -448,7 +438,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       listCollection.find({ product_name: { $regex: ".*" + userInput + ".*" } }).toArray()
         .then(results => {
           if (results.length === 0) {
-            res.sendFile(__dirname + '/not_found.html')
+            res.sendFile(__dirname + '/static_html_pages/not_found.html')
           } else {
             res.render('index.ejs', { items: results })
           }
@@ -606,7 +596,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/recommended/:id', async (req, res) => {
 
       try {
-
         let id = req.params.id;
         const productCategory = await getCategoryById(id);
         const recommendationCategory = getRecommendationCategory(productCategory);
@@ -617,9 +606,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             shuffle(results);
             res.render('recommended.ejs', { items: results })
           }).catch(error => console.error(error))
+
       } catch (error) {
         console.log("Failed to get a recommendation");
-        res.sendFile(__dirname + '/not_found.html')
+        res.sendFile(__dirname + '/static_html_pages/not_found.html')
       }
     })
 
@@ -757,5 +747,5 @@ app.listen(3001, function () {
 
 //start page, loads log-in screen;
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/static_html_pages/index.html')
 })
