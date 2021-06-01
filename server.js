@@ -726,6 +726,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       listCollection.find().toArray()
         .then(results => {
           res.json({ items: results })
+          console.log(results.length)
         })
         .catch(error => console.error(error))
     })
