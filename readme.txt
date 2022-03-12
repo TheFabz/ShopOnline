@@ -10,4 +10,7 @@ sales with filters day / week / month / year. In addition to this, the manager c
 The back-end and server is built in node.js and express.js. The template engine used is EJS, persistence is 
 being handled by mongo atlas cloud computing and the platform is built served locally with my own machine.
 
+https://online-shop-bundles.herokuapp.com/
+(sign in with 'admin':'admin')
+
 Many more updates to come!
