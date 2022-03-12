@@ -735,16 +735,15 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
   })
 
-/** for use in cloud 
+// for use in cloud 
 app.listen(process.env.PORT, function () {
   console.log('listening on 3000')
 })
-*/
 
 //local use
-app.listen(3001, function () {
-  console.log('listening on 3001')
-})
+//app.listen(3001, function () {
+//  console.log('listening on 3001')
+//})
 
 //start page, loads log-in screen;
 app.get('/', (req, res) => {
